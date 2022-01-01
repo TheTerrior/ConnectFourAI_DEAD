@@ -1,18 +1,4 @@
-class Player(Base):
-
-    '''
-    window = the window object itself from PySimpleGUI
-    '''
-
-    def __init__():
-        '''
-        Initiate a new GUI 
-        '''
-        pass
-    
-    #prompt the user to input a location for the new piece, check if input is valid
-    def prompt_turn(board):
-        pass
+from base import *
 
 class Generation(Base):
     __tablename__ = 'generation'
@@ -40,7 +26,7 @@ class NeuralNetwork(Base):
     ranks = relationship("Rank", back_populates = "neuralnetwork")
 
     #initiate the new neural network given the optional parameters
-    def __init__(layers = 1, sizes = [1], mutability = 0.5):
+    def __init__(self, layers = 1, sizes = [1], mutability = 0.5):
         if isinstance(layers, int):
             if isinstance(sizes, list):
                 if len(sizes) == layers:
@@ -71,10 +57,10 @@ class NeuralNetwork(Base):
             raise ValueError("Parameter 'layers' was not an integer!")
 
     #send board info to the neural network and generate an output. If main output is invalid, choose the next valid output
-    def prompt_turn(board):
+    def prompt_turn(self, board):
         pass
 
-    def process(input):
+    def process(self, input):
         if len(input) == len(self.layers):
             pass
         else:
@@ -89,7 +75,7 @@ class Layer(Base):
     neuralnetwork = relationship("NeuralNetwork", back_populates = "layers")
     perceptrons = relationship("Perceptron", back_populates = "layer")
     
-    def process(input):
+    def process(self, input):
         if len(input) == len(self.perceptrons):
             pass
         else:
@@ -106,13 +92,13 @@ class Perceptron(Base):
     layer = relationship("Layer", back_populates = "perceptrons")
 
     #initiate a new perceptron given the parameters, used as the basis for a neural network
-    def __init__(input_size, weights, bias = 0): #inputs is the number of inputs to this perceptron, weights is a list of weights for each input
-        if isinstance(inputs, int):
+    def __init__(self, input_size, weights, bias = 0):
+        if isinstance(input_size, int):
             if isinstance(weights, list):
-                if len(weights) != inputs:
+                if len(weights) == input_size:
 
                     self.input_size = input_size
-                    self.weights = tuple(weights) #saved as tuple to boost performance and save space
+                    self.weights = weights #saved as tuple to boost performance and save space
 
                     if isinstance(bias, float) or isinstance(bias, int):
                         self.bias = bias
@@ -125,7 +111,8 @@ class Perceptron(Base):
             else:
                 raise ValueError("Parameter 'weights' was not a list!")
         else:
-            raise ValueError("Parameter 'inputs' was not an integer!")
+            print(type(input_size))
+            raise ValueError("Parameter 'input_size' was not an integer!")
 
     @property
     def weights(self):
@@ -133,14 +120,15 @@ class Perceptron(Base):
     @weights.setter
     def weights(self, value):
         if isinstance(value, list):
+            self._weights = ""
             for x in value:
-                self._weights += '%s;' % value
+                self._weights += '%s;' % x
             if len(value) == 0:
                 self._weights = ';'
         else:
             raise ValueError("Attribute 'weights' was not a list! Encountered error when setting .weights attribute.")
 
-    def process(input):
+    def process(self, input):
         if len(input) == self.input_size:
             print("Perceptron process is yet to be implemented")
         else:
