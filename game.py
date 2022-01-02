@@ -11,14 +11,13 @@ class Game():
                 self.player1 = player1
                 self.player2 = player2
                 self.turn = True
-                self.winning_slots = []
             else:
                 raise ValueError("Player2 is not a valid opponent type!")
         else:
             raise ValueError("Player1 is not a valid opponent type!")
 
-    def generate_board_info(self):
-        return "test"
+    def board_info(self):
+        return self.board.matrix
 
     #Will prompt the next player to make a move, then return whether a win has occurred and the last player to make a move
     def next_turn(self):
