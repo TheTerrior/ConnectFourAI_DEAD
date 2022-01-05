@@ -1,6 +1,6 @@
 class Board():
     def __init__(self):
-        self.matrix = [ [ Tile((x, y)) for y in range(5) ] for x in range(6) ]
+        self.matrix = [ [ "BLANK" for _ in range(6) ] for _ in range(7) ]
         self.win = False
 
     '''
@@ -10,57 +10,53 @@ class Board():
     def drop(self, column, color):
         if color == "RED" or color == "YELLOW":
             if isinstance(column, int) and column >= 0 and column <= 6:
-                return __place((column, 5))
+                return self.__place((column, 5), color)
             else:
                 raise ValueError("'drop' given invalid column!")
         else:
             raise ValueError("'drop' given invalid color!")
     
     def __place(self, coords, color):
-        if coords[1] < 0 or matrix[coords[0]][coords[1]].color != "BLANK":
+        print(coords)
+        if coords[1] < 0 or self.matrix[coords[0]][coords[1]] != "BLANK":
             return False
-        if not __place((coords[0], coords[1] - 1), color):
-            matrix[coords[0]][coords[1]].color = color
-            __update_new_tile(coords)
+        if not self.__place((coords[0], coords[1] - 1), color):
+            self.matrix[coords[0]][coords[1]] = color
+            self.__win_detect(coords)
         return True
 
-    '''
-    def __adjacent_generator(self, coords):
-        yield 0, matrix[coords[0]][coords[1] + 1], matrix[coords[0]][coords[1] - 1]
-        yield 1, matrix[coords[0] + 1][coords[1] + 1], matrix[coords[0] - 1][coords[1] - 1]
-        yield 2, matrix[coords[0] + 1][coords[1]], matrix[coords[0] - 1][coords[1]]
-        yield 3, matrix[coords[0] - 1][coords[1] + 1], matrix[coords[0] + 1][coords[1] - 1]
-
-    def __update_new_tile(self, coords):
-        cur = matrix[coords[0]][coords[1]]
-        for direction, checkpos, checkneg, coords in __adjacent_generator(coords):
-            cur.adjacent[direction] = ((checkpos.adjacent if checkpos.color == cur.color else 0) +
-                (checkneg.adjacent if checkneg.color == cur.color else 0) + 1)
-            if checkpos.color == cur.color:
-                __update_tiles(checkpos.color)
-            if checkneg.color == cur.color:
-                __update_tiles(checkneg.color)
-        ''
-        cur.adjacent = ((checkpos.adjacent if checkpos.color == cur.color else 0) +
-            (checkneg.adjacent if checkneg.color == cur.color else 0) + 1)
-        ''
-    '''
-
-    def __update_new_tile(coords):
-        cur = matrix[coords[0]][coords[1]]
+    def __win_detect(self, coords):
+        color = self.matrix[coords[0]][coords[1]]
+        if self.__win_recursive((coords[0] + 1, coords[1]), 0, color) + self.__win_recursive((coords[0] - 1, coords[1]), 4, color) > 2:
+            self.win = True
+            return
+        if self.__win_recursive((coords[0] + 1, coords[1] + 1), 1, color) + self.__win_recursive((coords[0] - 1, coords[1] - 1), 5, color) > 2:
+            self.win = True
+            return
+        if self.__win_recursive((coords[0], coords[1] + 1), 2, color) + self.__win_recursive((coords[0], coords[1] - 1), 6, color) > 2:
+            self.win = True
+            return
+        if self.__win_recursive((coords[0] - 1, coords[1] + 1), 3, color) + self.__win_recursive((coords[0] + 1, coords[1] - 1), 7, color) > 2:
+            self.win = True
         
-    def __update_tiles(self, tile, direction, checked):
-        pass
-
-class Tile():
-
-    def __init__(self, coords, color = "BLANK"):
-        if color in ["BLANK", "RED", "YELLOW"]:
-            self.color = color
-            self.adjacent = [0, 0, 0, 0]
-            self.coords = coords
-        else:
-            print("Warning: The provided color was invalid. Defaulting to \"BLANK\"")
-
-    
-
+    def __win_recursive(self, coords, direction, color):
+        if coords[0] < 0 or coords[0] > 6 or coords[1] < 0 or coords[1] > 5:
+            return 0
+        if self.matrix[coords[0]][coords[1]] == color:
+            if direction == 0:
+                return 1 + self.__win_recursive((coords[0], coords[1] + 1), direction, color)
+            elif direction == 1:
+                return 1 + self.__win_recursive((coords[0] + 1, coords[1] + 1), direction, color)
+            elif direction == 2:
+                return 1 + self.__win_recursive((coords[0], coords[1] + 1), direction, color)
+            elif direction == 3:
+                return 1 + self.__win_recursive((coords[0] - 1, coords[1] + 1), direction, color)
+            elif direction == 4:
+                return 1 + self.__win_recursive((coords[0] - 1, coords[1]), direction, color)
+            elif direction == 5:
+                return 1 + self.__win_recursive((coords[0] - 1, coords[1] - 1), direction, color)
+            elif direction == 6:
+                return 1 + self.__win_recursive((coords[0], coords[1] - 1), direction, color)
+            else:
+                return 1 + self.__win_recursive((coords[0] + 1, coords[1] - 1), direction, color)
+        return 0

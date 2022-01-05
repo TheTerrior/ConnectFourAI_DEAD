@@ -23,7 +23,7 @@ from board import Board
 Ideally this page should contain minimal code, allowing the rest of the program to run basically independently
 
 How board info should be transferred:
-    Should be represented as a list of lists of Tiles (from board.py), where [0][0] is the bottom left 
+    Should be represented as a list of lists strings, where [0][0] is the bottom left 
     and [6][5] the top right. This will be the case for all locations where board info is required.
 '''
 
