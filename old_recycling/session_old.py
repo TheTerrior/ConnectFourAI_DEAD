@@ -11,33 +11,18 @@ class Session():
         self.gui = gui
 
     def __run_with_gui(self):
-        print("running with gui, not implemented")
-        ret = "Initializing GUI"
-        sesh_gui = GUI()
-
-        while True: #main loop
-            ret = sesh_gui.read()
-            if ret == "EXIT":
-                print("GUI was closed")
-                break
-            elif ret == None:
-                pass
-            else:
-                print(ret)
-
-        return ret
+        print("we testing this yall")
+        print(self)
+        return "EXIT"
 
     def __run_without_gui(self):
         print("running without gui, not implemented")
-
-        while True: #main loop
-            break
-
         return "EXIT"
 
     def run(self):
         if self.gui:
-            ret = self.__run_with_gui()
+            session_gui = GUI(self.__run_with_gui)
+            ret = session_gui.run()
         else:
             ret = self.__run_without_gui()
         self.__shutdown() 
