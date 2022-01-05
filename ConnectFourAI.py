@@ -1,9 +1,7 @@
 #from base import *
 #from models import Player, Generation, Rank, NeuralNetwork, Layer, Perceptron
 from session import Session
-
-#temp:
-from board import Board
+import sys
 
 
 
@@ -29,7 +27,10 @@ How board info should be transferred:
 
 def main():
     sesh = Session()
-    b = Board()
+    if "-nogui" in sys.argv:
+        sesh.set_gui(False)
+    sesh.run()
 
 
-main()
+if __name__ == "__main__":
+   main()
