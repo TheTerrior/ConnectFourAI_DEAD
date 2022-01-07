@@ -28,7 +28,7 @@ How board info should be transferred:
 def main():
     sesh = Session()
     if "-nogui" in sys.argv:
-        sesh.set_gui(False)
+        sesh.set_use_gui(False)
     sesh.run()
 
 
