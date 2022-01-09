@@ -1,0 +1,1 @@
+Replace board.py with cython board.pyx (see if numpy still works and if theres a speedup)
