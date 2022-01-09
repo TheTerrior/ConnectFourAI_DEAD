@@ -1,7 +1,7 @@
 from base import *
 from userinterface import GUI
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from PySimpleGUI import WIN_CLOSED, TIMEOUT_KEY
+from PySimpleGUIQt import WIN_CLOSED, TIMEOUT_KEY
 import threading
 import time
 #from models import Player, Generation, Rank, NeuralNetwork, Layer, Perceptron

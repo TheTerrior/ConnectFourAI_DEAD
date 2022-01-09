@@ -3,7 +3,7 @@ import numpy as np
 class Board():
     def __init__(self):
         #self.matrix = [ [ "BLANK" for _ in range(6) ] for _ in range(7) ]
-        self.matrix = np.zeros((7,6))
+        self.matrix = np.zeros((7,6), np.byte)
         self.win = 0
         self.cols_open = 7
 
@@ -12,10 +12,10 @@ class Board():
     Returns True for a successful drop or False for an unsuccessful drop (but no crash).
     '''
     def drop(self, column, color):
-        if color == "RED" or color == "YELLOW":
+        if color == 1 or color == 2 or color == "RED" or color == "YELLOW": #strings might be deprecated later
             if color == "RED":
                 color = 1
-            else:
+            elif color == "YELLOW":
                 color = 2
             if isinstance(column, int) and column >= 0 and column <= 6:
                 return self.__place((column, 5), color)

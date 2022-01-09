@@ -1,1 +1,2 @@
 Replace board.py with cython board.pyx (see if numpy still works and if theres a speedup)
+Maybe create a separate file that holds functions for the models (so they can be written as numba or cython)

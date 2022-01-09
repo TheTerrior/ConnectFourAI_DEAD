@@ -1,4 +1,4 @@
-import PySimpleGUI as sg
+import PySimpleGUIQt as sg
 import time
 
 #will be generated if player asks to play and will be provided the UI window object

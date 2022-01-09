@@ -16,7 +16,7 @@ class Game():
         else:
             raise ValueError("Player1 is not a valid opponent type!")
 
-    def board_info(self):
+    def generate_board_info(self):
         return self.board.matrix
 
     #Will prompt the next player to make a move, then return whether a win has occurred and the last player to make a move

@@ -1,6 +1,6 @@
 import os
 import sys
-from sqlalchemy import create_engine, Column, ForeignKey, Integer, String, Float, Boolean
+from sqlalchemy import create_engine, Column, ForeignKey, Integer, String, Float, Boolean, asc, desc
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
