@@ -1,5 +1,4 @@
 from base import *
-from modfuncs import *
 import numpy as np
 
 class Generation(Base):
@@ -87,7 +86,7 @@ class NeuralNetwork(Base):
     def shape(self):
         return stol(self._shape)
     @shape.setter
-    def weights(self, value):
+    def shape(self, value):
         if isinstance(value, list):
             self._shape = ltos(value)
         else:
