@@ -59,12 +59,12 @@ class NeuralNetwork(Base):
             '''
 
             for i, size in enumerate(shape):
-                layers.append(Layer(self, size, i))
+                self.layers.append(Layer(self, size, i))
 
             if isinstance(mutability, float) or isinstance(mutability, int):
                 self.mutability = mutability
 
-                self.ordered_layers = self.layers.order_by(asc(Layer.order)) #allows for faster accessing for this session
+                self.sort_layers() 
 
             else:
                 print("Warning: The provided mutability was not a number. Defaulting to 0.5.")
@@ -72,13 +72,24 @@ class NeuralNetwork(Base):
         else:
             raise ValueError("Parameter 'shape' was not a list!")
 
+    #allows for faster accessing for this session, should be called right after grabbing object from database
+    def sort_layers(self): 
+        try:
+            self.ordered_layers
+        except NameError:
+            self.ordered_layers = self.layers.order_by(asc(Layer.order)).all()
+
     #send board info to the neural network and generate an output. If main output is invalid, choose the next valid output
     def prompt_turn(self, board):
         return self.process(board.ravel()) #returns a reference to the matrix, so careful not to edit values, faster than .flatten()
 
     def process(self, input):
         if len(input) == len(self.shape[0]):
-            pass
+            #self.sort_layers()
+            for i in range(self.layers):
+                #grab input and send it to the first layer for processing
+                #then save this new data and prepare to loop again to send it to the next layer
+                pass
         else:
             raise ValueError("Neural network received an input with a size other than its input size!")
 
